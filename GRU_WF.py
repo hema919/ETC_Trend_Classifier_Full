@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as numpy
+import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten,Reshape
 from keras.layers import Conv1D, MaxPooling1D
@@ -22,8 +22,8 @@ config.gpu_options.allow_growth = True
 set_session(tf.Session(config=config))
 
 with h5py.File(''.join(['data/allcoin2015to2017_wf.h5']), 'r') as hf:
-    datas = hf['inputs'].value
-    labels = hf['outputs'].value
+    datas = hf['inputs'][:]
+    labels = hf['outputs'][:]
 
 
 nb_partitions = datas.shape[0]
@@ -48,7 +48,7 @@ for partition in range(nb_partitions):
     csvlog = CSVLogger('result/'+output_file_name+'.csv', append=True)
     checkpoint = ModelCheckpoint('weights/'+output_file_name+'partition_'+str(partition)+'.hdf5', monitor='val_loss', verbose=1, save_best_only=True, mode='min')
     cb_list = [early,csvlog,checkpoint]
-    print training_datas.shape, validation_datas.shape, training_labels.shape, validation_labels.shape
+    print(training_datas.shape, validation_datas.shape, training_labels.shape, validation_labels.shape)
     #build model
     model = Sequential()
     model.add(CuDNNGRU(units=units, input_shape=(step_size,nb_features),return_sequences=True))

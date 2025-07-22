@@ -36,12 +36,12 @@ os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 
 
 with h5py.File(''.join(['bitcoin2012_2017_256_16.h5']), 'r') as hf:
-    datas = hf['inputs'].value
-    labels = hf['outputs'].value
-    input_times = hf['input_times'].value
-    output_times = hf['output_times'].value
-    original_datas = hf['original_datas'].value
-    original_outputs = hf['original_outputs'].value
+    datas = hf['inputs'][:]
+    labels = hf['outputs'][:]
+    input_times = hf['input_times'][:]
+    output_times = hf['output_times'][:]
+    original_datas = hf['original_datas'][:]
+    original_outputs = hf['original_outputs'][:]
 
 
 
@@ -150,7 +150,7 @@ predicted_inverted = np.array(predicted_inverted)[:,:,0].reshape(-1)
 
 
 # In[8]:
-print output_times.shape, ground_true.shape
+print(output_times.shape, ground_true.shape)
 
 plt.plot(output_times[-1000:],ground_true[-1000:])
 plt.plot(output_times[-1000:],predicted_inverted[-1000:])
