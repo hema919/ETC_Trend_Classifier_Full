@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as numpy
+import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv1D, MaxPooling1D, LeakyReLU, PReLU
@@ -22,8 +22,8 @@ set_session(tf.Session(config=config))
 
 
 with h5py.File(''.join(['bitcoin2015to2017_close.h5']), 'r') as hf:
-    datas = hf['inputs'].value
-    labels = hf['outputs'].value
+    datas = hf['inputs'][:]
+    labels = hf['outputs'][:]
 
 
 output_file_name='bitcoin2015to2017_close_CNN_2_relu'

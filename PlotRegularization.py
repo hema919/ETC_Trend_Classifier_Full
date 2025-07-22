@@ -35,13 +35,13 @@ import matplotlib.pyplot as plt
 
 
 with h5py.File(''.join(['bitcoin2015to2017_close.h5']), 'r') as hf:
-    datas = hf['inputs'].value
-    labels = hf['outputs'].value
-    input_times = hf['input_times'].value
-    output_times = hf['output_times'].value
-    original_inputs = hf['original_inputs'].value
-    original_outputs = hf['original_outputs'].value
-    original_datas = hf['original_datas'].value
+    datas = hf['inputs'][:]
+    labels = hf['outputs'][:]
+    input_times = hf['input_times'][:]
+    output_times = hf['output_times'][:]
+    original_inputs = hf['original_inputs'][:]
+    original_outputs = hf['original_outputs'][:]
+    original_datas = hf['original_datas'][:]
 
 
 # In[3]:
@@ -87,8 +87,8 @@ set_session(tf.Session(config=config))
 
 ground_true = np.append(validation_original_inputs,validation_original_outputs, axis=1)
 ground_true_times = np.append(validation_input_times,validation_output_times, axis=1)
-print ground_true_times.shape
-print ground_true.shape
+print(ground_true_times.shape)
+print(ground_true.shape)
 
 
 # In[8]:
@@ -157,7 +157,7 @@ results = pd.DataFrame()
 for reg in regs:
     
     name = ('l1 %.4f,l2 %.4f' % (reg.l1, reg.l2))
-    print "Training "+ str(name)
+    print("Training "+ str(name))
     results[name] = experiment(validation_datas,validation_labels,original_datas,ground_true,ground_true_times,validation_original_outputs, validation_output_times, nb_repeat,reg)
 # print(results.describe())
 # save boxplot
@@ -191,7 +191,7 @@ results = pd.DataFrame()
 for reg in regs:
     
     name = ('l1 %.4f,l2 %.4f' % (reg.l1, reg.l2))
-    print "Training "+ str(name)
+    print("Training "+ str(name))
     results[name] = experiment(validation_datas,validation_labels,original_datas,ground_true,ground_true_times,validation_original_outputs, validation_output_times, nb_repeat,reg)
 
 results.describe().to_csv('result/lstm_kernel_reg.csv')
@@ -224,7 +224,7 @@ results = pd.DataFrame()
 for reg in regs:
     
     name = ('l1 %.4f,l2 %.4f' % (reg.l1, reg.l2))
-    print "Training "+ str(name)
+    print("Training "+ str(name))
     results[name] = experiment(validation_datas,validation_labels,original_datas,ground_true,ground_true_times,validation_original_outputs, validation_output_times, nb_repeat,reg)
 
 results.describe().to_csv('result/lstm_activity_reg.csv')
@@ -257,7 +257,7 @@ results = pd.DataFrame()
 for reg in regs:
     
     name = ('l1 %.4f,l2 %.4f' % (reg.l1, reg.l2))
-    print "Training "+ str(name)
+    print("Training "+ str(name))
     results[name] = experiment(validation_datas,validation_labels,original_datas,ground_true,ground_true_times,validation_original_outputs, validation_output_times, nb_repeat,reg)
 
 results.describe().to_csv('result/lstm_recurrent_reg.csv')
